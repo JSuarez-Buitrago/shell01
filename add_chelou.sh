@@ -1,0 +1,8 @@
+#!bin/sh
+FT_NBR1=\\\'?\"\\\"\'\\;
+FT_NBR2=rcrdmddd;
+
+FT_NBR3=\\\"\\\"!\\\"\\\"!\\\"\\\"!\\\"\\\"!\\\"\\\"!\\\"\\\";
+FT_NBR4=dcrcmcmooododmrrrmorcmcrmomo;
+
+echo $FT_NBR3 $FT_NBR4 | awk -v count=0 -v char=0 -v total=0 '{ while (count < length($1)) { char=substr($1,count+1,1); if(char == "\\") { number[count]=1;} else if (char == "'\''") { number[count]=0;} else if (char == "\"") { number[count]=2;} else if ( char == "?") { number[count]=3;} else if ( char == "!") { number[count]=4;} count++;} i=0; while (i < length($1)){ total=total+5**(length($1)-1-i)*number[i]; i++;} count=0; while (count < length($2)) { char=substr($2,count+1,1); if(char == "r") { number[count]=1;} else if (char == "m") {number[count]=0;} else if (char == "d") { number[count]=2;} else if (char == "o") { number[count]=3;} else if ( char == "c") { number[count]=4;} count++;} i=0; while (i < length($2)){ total=total+5**(length($2)-1-i)*number[i]; i++;} i=0; while (total >= 13){ eureka[i]=total%13; total=(total-eureka[i])/13; if (total<13){ eureka[i+1]=total;} i++;} i=0; while(i<length(eureka)){ if(eureka[i]==0) {eureka[i]="g";} else if (eureka[i] == 1){ eureka[i]="t";} else if (eureka[i]==2) {eureka[i]="a"} else if (eureka[i]==3) {eureka[i]="i";} else if (eureka[i]==4) {eureka[i]="o";} else if (eureka[i]==5) {eureka[i]=" "}  else if (eureka[i]==6) {eureka[i]="l"}  else if (eureka[i]==7) {eureka[i]="u"}  else if (eureka[i]==8) {eureka[i]="S"}  else if (eureka[i]==9) {eureka[i]="n"}  else if (eureka[i]==10) {eureka[i]="e"}  else if (eureka[i]==11) {eureka[i]="m"}  else if (eureka[i]==12) {eureka[i]="f"} print eureka[i]; i++;} }'| tr -d "\n" | rev |  awk '{print $0}' 
